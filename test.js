@@ -276,6 +276,59 @@ test.skip('operates with memoized elements', function (t) {
   }, 100)
 })
 
+test.skip('operates correctly updates into detached tree', function (t) {
+  var results = []
+  var views = [parent, sub]
+  function sub () {
+    return onload(yo`<div>sub</div>`, function () {
+      results.push('sub on')
+    }, function () {
+      results.push('sub off')
+    })
+  }
+  function parent (includeSub) {
+    if (!includeSub) { return yo`<div>removed child</div>` }
+    var container = onload(yo`<div id='sub-container'><div></div></div>`, function () {
+      results.push('container on')
+    }, function () {
+      results.push('container off')
+      // remove child view from list
+      views.splice(1, 1)
+    })
+    return yo`<div>parent${container}</div>`
+  }
+
+  // initialize
+  var root = parent(true)
+  document.body.appendChild(root)
+
+  var trees = [root, root.querySelector('#sub-container div')]
+  var opts = {
+    // don't update #sub-container's children here, because it wants to be
+    // updated in a separate code path
+    onBeforeElChildrenUpdated: function (from, to) { return from.id !== 'sub-container' }
+  }
+
+  var includeSub = true
+  function update () {
+    views.forEach((view, i) => yo.update(trees[i], view(includeSub), opts))
+  }
+
+  var interval = setInterval(update, 10)
+  setTimeout(function () {
+    includeSub = false
+    setTimeout(function () {
+      clearInterval(interval)
+      ;['container', 'sub'].forEach(function (v) {
+        var on = results.indexOf(v + ' on') >= 0
+        t.ok(on >= 0, v + ' on')
+        t.ok(results.indexOf(v + ' off') > on, v + ' off')
+      })
+      t.end()
+    }, 10)
+  }, 100)
+})
+
 function runops (ops, done) {
   function loop () {
     var next = ops.shift()
