@@ -18,13 +18,9 @@ if (window && window.MutationObserver) {
       eachMutation(mutations[i].addedNodes, turnon)
     }
   })
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeOldValue: true,
-    attributeFilter: [KEY_ATTR]
-  })
+
+  if (document.readyState === 'complete') startObserving(observer)()
+  else document.addEventListener('DOMContentLoaded', startObserving(observer))
 }
 
 module.exports = function onload (el, on, off, caller) {
@@ -34,6 +30,18 @@ module.exports = function onload (el, on, off, caller) {
   watch['o' + INDEX] = [on, off, 0, caller || onload.caller]
   INDEX += 1
   return el
+}
+
+function startObserving (obs) {
+  return function () {
+    obs.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeOldValue: true,
+      attributeFilter: [KEY_ATTR]
+    })
+  }
 }
 
 function turnon (index, el) {
