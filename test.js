@@ -1,9 +1,10 @@
-var onload = require('./')
+var Onload = require('./')
 var test = require('tape')
 var yo = require('yo-yo')
 
 test('onload/onunload', function (t) {
   t.plan(2)
+  var onload = Onload()
   var el = document.createElement('div')
   el.textContent = 'test'
   onload(el, function () {
@@ -15,10 +16,12 @@ test('onload/onunload', function (t) {
   })
   document.body.appendChild(el)
   document.body.removeChild(el)
+  setTimeout(onload.end, 10)
 })
 
 test('passed el reference', function (t) {
   t.plan(4)
+  var onload = Onload()
   function page1 () {
     var tree = yo`<div>page1</div>`
     return onload(tree, function (el) {
@@ -44,12 +47,14 @@ test('passed el reference', function (t) {
     },
     function () {
       root.parentNode.removeChild(root)
-    }
+    },
+    onload.end
   ])
 })
 
 test('nested', function (t) {
   t.plan(2)
+  var onload = Onload()
   var e1 = document.createElement('div')
   var e2 = document.createElement('div')
   e1.appendChild(e2)
@@ -65,10 +70,12 @@ test('nested', function (t) {
   })
   e2.appendChild(e3)
   e2.removeChild(e3)
+  setTimeout(onload.end, 10)
 })
 
 test('complex', function (t) {
   t.plan(3)
+  var onload = Onload()
   var state = []
 
   function button () {
@@ -107,12 +114,14 @@ test('complex', function (t) {
       root.parentNode.removeChild(root)
     }
   ], function () {
+    onload.end()
     t.end()
   })
 })
 
 test('complex nested', function (t) {
   t.plan(7)
+  var onload = Onload()
   var state = []
   function button () {
     var el = yo`<button>click</button>`
@@ -183,12 +192,14 @@ test('complex nested', function (t) {
       root.parentNode.removeChild(root)
     }
   ], function () {
+    onload.end()
     t.end()
   })
 })
 
 test('fire on same node but not from the same caller', function (t) {
   t.plan(1)
+  var onload = Onload()
   var results = []
   function page1 (contents) {
     return onload(yo`<div id="choo-root">${contents}</div>`, function () {
@@ -238,12 +249,14 @@ test('fire on same node but not from the same caller', function (t) {
       'page1 off'
     ]
     t.deepEqual(results, expected)
+    onload.end()
     t.end()
   })
 })
 
 test.skip('operates with memoized elements', function (t) {
   t.plan(1)
+  var onload = Onload()
   var results = []
   function sub () {
     return onload(yo`<div>sub</div>`, function () {
@@ -272,8 +285,33 @@ test.skip('operates with memoized elements', function (t) {
   setTimeout(function () {
     clearInterval(interval)
     t.deepEqual(results, ['parent on', 'sub on'])
+    onload.end()
     t.end()
   }, 100)
+})
+
+test('multiple onload/onunload', function (t) {
+  t.plan(4)
+  var onload1 = Onload()
+  var onload2 = Onload()
+  var el = document.createElement('div')
+  el.textContent = 'test'
+  onload1(el, function () {
+    t.ok(true, 'onload1 called')
+  }, function () {
+    t.ok(true, 'onunload1 called')
+    document.body.innerHTML = ''
+  })
+  onload2(el, function () {
+    t.ok(true, 'onload2 called')
+  }, function () {
+    t.ok(true, 'onunload2 called')
+    document.body.innerHTML = ''
+  })
+  document.body.appendChild(el)
+  document.body.removeChild(el)
+  setTimeout(onload1.end, 10)
+  setTimeout(onload2.end, 10)
 })
 
 function runops (ops, done) {
