@@ -36,6 +36,8 @@ module.exports = function onload (el, on, off, caller) {
   return el
 }
 
+module.exports.KEY_ATTR = KEY_ATTR
+
 function turnon (index, el) {
   if (watch[index][0] && watch[index][2] === 0) {
     watch[index][0](el)
