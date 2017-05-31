@@ -12,7 +12,7 @@ test('onload/onunload', function (t) {
     t.ok(true, 'onunload called')
     document.body.innerHTML = ''
     t.end()
-  })
+  }, 'test')
   document.body.appendChild(el)
   document.body.removeChild(el)
 })
@@ -25,7 +25,7 @@ test('passed el reference', function (t) {
       t.equal(el, tree, 'onload passed element reference for page1')
     }, function (el) {
       t.equal(el, tree, 'onunload passed element reference for page1')
-    })
+    }, 'page1')
   }
   function page2 () {
     var tree = yo`<div>page2</div>`
@@ -33,7 +33,7 @@ test('passed el reference', function (t) {
       t.equal(el.textContent, 'page2', 'onload passed element reference for page2')
     }, function (el) {
       t.equal(el.textContent, 'page2', 'onunload passed element reference for page2')
-    })
+    }, 'page2')
   }
 
   var root = page1()
@@ -62,7 +62,7 @@ test('nested', function (t) {
     t.ok(true, 'onunload called')
     document.body.innerHTML = ''
     t.end()
-  })
+  }, 'test')
   e2.appendChild(e3)
   e2.removeChild(e3)
 })
@@ -77,7 +77,7 @@ test('complex', function (t) {
       state.push('on')
     }, function () {
       state.push('off')
-    })
+    }, 'test')
     return el
   }
 
@@ -120,7 +120,7 @@ test('complex nested', function (t) {
       state.push('on')
     }, function () {
       state.push('off')
-    })
+    }, 'test')
     return el
   }
   function app (page) {
@@ -195,14 +195,14 @@ test('fire on same node but not from the same caller', function (t) {
       results.push('page1 on')
     }, function () {
       results.push('page1 off')
-    })
+    }, 'page1')
   }
   function page2 (contents) {
     return onload(yo`<div id="choo-root">${contents}</div>`, function () {
       results.push('page2 on')
     }, function () {
       results.push('page2 off')
-    })
+    }, 'page2')
   }
   var root = page1()
   document.body.appendChild(root)
@@ -250,7 +250,7 @@ test.skip('operates with memoized elements', function (t) {
       results.push('sub on')
     }, function () {
       results.push('sub off')
-    })
+    }, 'sub')
   }
   var saved = null
   function parent () {
@@ -258,7 +258,7 @@ test.skip('operates with memoized elements', function (t) {
       results.push('parent on')
     }, function () {
       results.push('parent off')
-    })
+    }, 'parent')
     return saved
   }
   function app () {
