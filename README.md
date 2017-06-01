@@ -13,11 +13,13 @@ On load/unload events for DOM elements using a MutationObserver
 var onload = require('on-load')
 
 var div = document.createElement('div')
+// Provide on-load and on-unload hooks, and caller name. The latter is required, as it can't be
+// deduced automatically.
 onload(div, function (el) {
   console.log('in the dom')
 }, function (el) {
   console.log('out of the dom')
-})
+}, 'myFunction')
 
 // Will fire the onload
 document.body.appendChild(div)
