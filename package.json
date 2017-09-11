@@ -2,7 +2,8 @@
   "name": "on-load",
   "version": "3.2.1",
   "description": "On load/unload events for DOM elements using a MutationObserver",
-  "main": "index.js",
+  "main": "server.js",
+  "browser": "index.js",
   "scripts": {
     "start": "wzrd test.js:bundle.js",
     "test": "standard && browserify test.js | testron"
