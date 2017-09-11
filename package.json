@@ -3,7 +3,10 @@
   "version": "3.2.2",
   "description": "On load/unload events for DOM elements using a MutationObserver",
   "main": "server.js",
-  "browser": "index.js",
+  "browser": {
+    "assert": "nanoassert",
+    "./server.js": "index.js"
+  },
   "scripts": {
     "start": "wzrd test.js:bundle.js",
     "test": "standard && browserify test.js | testron"
@@ -30,7 +33,8 @@
   },
   "homepage": "https://github.com/shama/on-load",
   "dependencies": {
-    "global": "^4.3.0"
+    "global": "^4.3.0",
+    "nanoassert": "^1.1.0"
   },
   "devDependencies": {
     "browserify": "^13.0.0",
