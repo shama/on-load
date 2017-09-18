@@ -17,6 +17,14 @@ test('onload/onunload', function (t) {
   document.body.removeChild(el)
 })
 
+test('assign key attr', function (t) {
+  t.plan(1)
+  var el = document.createElement('div')
+  el.textContent = 'test'
+  onload(el)
+  t.ok(el.hasAttribute(onload.KEY_ATTR), 'has correct key attr')
+})
+
 test('passed el reference', function (t) {
   t.plan(4)
   function page1 () {
