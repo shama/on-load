@@ -38,7 +38,7 @@ function beginObserve (observer) {
   })
 }
 
-module.exports = function onload (el, on, off, caller) {
+function onload (el, on, off, caller) {
   assert(document.body, 'on-load: will not work prior to DOMContentLoaded')
   on = on || function () {}
   off = off || function () {}
@@ -47,6 +47,8 @@ module.exports = function onload (el, on, off, caller) {
   INDEX += 1
   return el
 }
+onload.key_attr = KEY_ATTR
+module.exports = onload
 
 function turnon (index, el) {
   if (watch[index][0] && watch[index][2] === 0) {
