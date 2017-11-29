@@ -7,8 +7,6 @@ var KEY_ID = 'onloadid' + (new Date() % 9e6).toString(36)
 var KEY_ATTR = 'data-' + KEY_ID
 var INDEX = 0
 
-console.log('wut')
-
 if (window && window.MutationObserver) {
   var observer = new MutationObserver(function (mutations) {
     if (Object.keys(watch).length < 1) return

@@ -5,5 +5,5 @@ if (isElectron()) {
 }
 
 function isElectron () {
-  return process && process.versions && (process.versions.electron !== undefined)
+  return typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer'
 }
