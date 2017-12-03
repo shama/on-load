@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/shama/on-load",
   "dependencies": {
-    "global": "^4.3.0",
+    "global": "^4.3.2",
     "nanoassert": "^1.1.0"
   },
   "devDependencies": {
