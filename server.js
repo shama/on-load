@@ -1,9 +1,9 @@
 if (isElectron()) {
-  module.exports = require('.')
+  module.exports = require('./index.js') // explicite relative import to avoid browser field
 } else {
   module.exports = function () {}
 }
 
 function isElectron () {
-  return typeof window !== 'undefined' && typeof window.process === 'object' && window.process.type === 'renderer'
+  return window && window.process && window.process.type === 'renderer'
 }
