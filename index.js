@@ -29,7 +29,7 @@ if (window && window.MutationObserver) {
 }
 
 function beginObserve (observer) {
-  observer.observe(document.body, {
+  observer.observe(document.documentElement, {
     childList: true,
     subtree: true,
     attributes: true,
