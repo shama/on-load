@@ -1,6 +1,6 @@
 {
   "name": "on-load",
-  "version": "3.3.4",
+  "version": "3.4.0",
   "description": "On load/unload events for DOM elements using a MutationObserver",
   "main": "server.js",
   "browser": {
