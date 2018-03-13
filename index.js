@@ -18,7 +18,9 @@ if (window && window.MutationObserver) {
       eachMutation(mutations[i].removedNodes, function (index, el) {
         if (!document.documentElement.contains(el)) turnoff(index, el)
       })
-      eachMutation(mutations[i].addedNodes, turnon)
+      eachMutation(mutations[i].addedNodes, function (index, el) {
+        if (document.documentElement.contains(el)) turnon(index, el)
+      })
     }
   })
   if (document.body) {
