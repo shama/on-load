@@ -5,7 +5,7 @@
   "main": "server.js",
   "browser": {
     "assert": "nanoassert",
-    "./server.js": "index.js"
+    "./server.js": "./index.js"
   },
   "scripts": {
     "start": "wzrd test.js:bundle.js",
