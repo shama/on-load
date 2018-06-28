@@ -5,7 +5,7 @@
   "main": "server.js",
   "browser": {
     "assert": "nanoassert",
-    "./server.js": "index.js"
+    "./server.js": "./index.js"
   },
   "scripts": {
     "start": "wzrd test.js:bundle.js",
@@ -41,7 +41,7 @@
     "electron-prebuilt": "^0.36.9",
     "standard": "^10.0.3",
     "tape": "^4.6.0",
-    "testron": "^1.2.0",
+    "testron": "lachenmayer/testron#fs-unlink-error",
     "wzrd": "^1.4.0",
     "yo-yo": "^1.2.1"
   }
