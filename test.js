@@ -250,7 +250,7 @@ test('fire on same node but not from the same caller', function (t) {
   })
 })
 
-test.skip('operates with memoized elements', function (t) {
+test('operates with memoized elements', function (t) {
   t.plan(1)
   var results = []
   function sub () {
