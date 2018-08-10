@@ -23,23 +23,9 @@ if (window && window.MutationObserver) {
       })
     }
   })
-  if (document.body) {
-    beginObserve(observer)
-  } else {
-    document.addEventListener('DOMContentLoaded', function (event) {
-      beginObserve(observer)
-    })
-  }
-}
 
-function beginObserve (observer) {
-  observer.observe(document.documentElement, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeOldValue: true,
-    attributeFilter: [KEY_ATTR]
-  })
+  if (document.readyState === 'complete') startObserving(observer)()
+  else document.addEventListener('DOMContentLoaded', startObserving(observer))
 }
 
 module.exports = function onload (el, on, off, caller) {
@@ -50,6 +36,18 @@ module.exports = function onload (el, on, off, caller) {
   watch['o' + INDEX] = [on, off, 0, caller || onload.caller]
   INDEX += 1
   return el
+}
+
+function startObserving (obs) {
+  return function () {
+    obs.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeOldValue: true,
+      attributeFilter: [KEY_ATTR]
+    })
+  }
 }
 
 module.exports.KEY_ATTR = KEY_ATTR
