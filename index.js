@@ -38,6 +38,9 @@ module.exports = function onload (el, on, off, caller) {
   return el
 }
 
+module.exports.KEY_ATTR = KEY_ATTR
+module.exports.KEY_ID = KEY_ID
+
 function startObserving (obs) {
   return function () {
     obs.observe(document.body, {
@@ -49,9 +52,6 @@ function startObserving (obs) {
     })
   }
 }
-
-module.exports.KEY_ATTR = KEY_ATTR
-module.exports.KEY_ID = KEY_ID
 
 function turnon (index, el) {
   if (watch[index][0] && watch[index][2] === 0) {
