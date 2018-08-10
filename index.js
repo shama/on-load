@@ -1,7 +1,6 @@
 /* global MutationObserver */
 var document = require('global/document')
 var window = require('global/window')
-var assert = require('assert')
 var watch = Object.create(null)
 var KEY_ID = 'onloadid' + (new Date() % 9e6).toString(36)
 var KEY_ATTR = 'data-' + KEY_ID
@@ -24,12 +23,16 @@ if (window && window.MutationObserver) {
     }
   })
 
-  if (document.readyState === 'complete') startObserving(observer)()
-  else document.addEventListener('DOMContentLoaded', startObserving(observer))
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeOldValue: true,
+    attributeFilter: [KEY_ATTR]
+  })
 }
 
 module.exports = function onload (el, on, off, caller) {
-  assert(document.body, 'on-load: will not work prior to DOMContentLoaded')
   on = on || function () {}
   off = off || function () {}
   el.setAttribute(KEY_ATTR, 'o' + INDEX)
@@ -40,18 +43,6 @@ module.exports = function onload (el, on, off, caller) {
 
 module.exports.KEY_ATTR = KEY_ATTR
 module.exports.KEY_ID = KEY_ID
-
-function startObserving (obs) {
-  return function () {
-    obs.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      attributeOldValue: true,
-      attributeFilter: [KEY_ATTR]
-    })
-  }
-}
 
 function turnon (index, el) {
   if (watch[index][0] && watch[index][2] === 0) {
