@@ -99,7 +99,7 @@ function eachMutation (nodes, fn) {
         }
       })
     }
-    if (nodes[i].childNodes.length > 0) {
+    if (nodes[i] && nodes[i].childNodes.length > 0) {
       eachMutation(nodes[i].childNodes, fn)
     }
   }
