@@ -2,7 +2,7 @@
 var document = require('global/document')
 var window = require('global/window')
 var watch = Object.create(null)
-var KEY_ID = 'onloadid' + (new Date() % 9e6).toString(36)
+var KEY_ID = 'onloadid' + Math.random().toString(36) + '.' + (new Date() % 9e6).toString(36)
 var KEY_ATTR = 'data-' + KEY_ID
 var INDEX = 0
 
