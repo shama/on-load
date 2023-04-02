@@ -1,10 +1,10 @@
-var onload = require('./')
-var test = require('tape')
-var yo = require('yo-yo')
+const onload = require('./')
+const test = require('tape')
+const yo = require('yo-yo')
 
 test('onload/onunload', function (t) {
   t.plan(2)
-  var el = document.createElement('div')
+  const el = document.createElement('div')
   el.textContent = 'test'
   onload(el, function () {
     t.ok(true, 'onload called')
@@ -19,7 +19,7 @@ test('onload/onunload', function (t) {
 
 test('assign key attr', function (t) {
   t.plan(1)
-  var el = document.createElement('div')
+  const el = document.createElement('div')
   el.textContent = 'test'
   onload(el)
   t.ok(el.hasAttribute(onload.KEY_ATTR), 'has correct key attr')
@@ -28,7 +28,7 @@ test('assign key attr', function (t) {
 test('passed el reference', function (t) {
   t.plan(4)
   function page1 () {
-    var tree = yo`<div>page1</div>`
+    const tree = yo`<div>page1</div>`
     return onload(tree, function (el) {
       t.equal(el, tree, 'onload passed element reference for page1')
     }, function (el) {
@@ -36,7 +36,7 @@ test('passed el reference', function (t) {
     })
   }
   function page2 () {
-    var tree = yo`<div>page2</div>`
+    const tree = yo`<div>page2</div>`
     return onload(tree, function (el) {
       t.equal(el.textContent, 'page2', 'onload passed element reference for page2')
     }, function (el) {
@@ -44,7 +44,7 @@ test('passed el reference', function (t) {
     })
   }
 
-  var root = page1()
+  let root = page1()
   document.body.appendChild(root)
   runops([
     function () {
@@ -58,12 +58,12 @@ test('passed el reference', function (t) {
 
 test('nested', function (t) {
   t.plan(2)
-  var e1 = document.createElement('div')
-  var e2 = document.createElement('div')
+  const e1 = document.createElement('div')
+  const e2 = document.createElement('div')
   e1.appendChild(e2)
   document.body.appendChild(e1)
 
-  var e3 = document.createElement('div')
+  const e3 = document.createElement('div')
   onload(e3, function () {
     t.ok(true, 'onload called')
     e2.removeChild(e3)
@@ -77,10 +77,10 @@ test('nested', function (t) {
 
 test('complex', function (t) {
   t.plan(3)
-  var state = []
+  let state = []
 
   function button () {
-    var el = yo`<button>click</button>`
+    const el = yo`<button>click</button>`
     onload(el, function () {
       state.push('on')
     }, function () {
@@ -89,7 +89,7 @@ test('complex', function (t) {
     return el
   }
 
-  var root = yo`<div>
+  let root = yo`<div>
     ${button()}
   </div>`
   document.body.appendChild(root)
@@ -103,7 +103,7 @@ test('complex', function (t) {
     function () {
       t.deepEqual(state, ['off'], 'turn off')
       state = []
-      var btn = button()
+      const btn = button()
       root = yo.update(root, yo`<p><div>${btn}</div></p>`)
       root = yo.update(root, yo`<p>
         <div>Updated</div>
@@ -121,9 +121,9 @@ test('complex', function (t) {
 
 test('complex nested', function (t) {
   t.plan(7)
-  var state = []
+  let state = []
   function button () {
-    var el = yo`<button>click</button>`
+    const el = yo`<button>click</button>`
     onload(el, function () {
       state.push('on')
     }, function () {
@@ -138,7 +138,7 @@ test('complex nested', function (t) {
     </div>`
   }
 
-  var root = app(yo`<div>Loading...</div>`)
+  let root = app(yo`<div>Loading...</div>`)
   document.body.appendChild(root)
 
   runops([
@@ -197,7 +197,7 @@ test('complex nested', function (t) {
 
 test('fire on same node but not from the same caller', function (t) {
   t.plan(1)
-  var results = []
+  const results = []
   function page1 (contents) {
     return onload(yo`<div id="choo-root">${contents}</div>`, function () {
       results.push('page1 on')
@@ -212,7 +212,7 @@ test('fire on same node but not from the same caller', function (t) {
       results.push('page2 off')
     })
   }
-  var root = page1()
+  let root = page1()
   document.body.appendChild(root)
   runops([
     function () {
@@ -237,7 +237,7 @@ test('fire on same node but not from the same caller', function (t) {
       document.body.removeChild(root)
     }
   ], function () {
-    var expected = [
+    const expected = [
       'page1 on',
       'page1 off',
       'page2 on',
@@ -252,7 +252,7 @@ test('fire on same node but not from the same caller', function (t) {
 
 test('operates with memoized elements', function (t) {
   t.plan(1)
-  var results = []
+  const results = []
   function sub () {
     return onload(yo`<div>sub</div>`, function () {
       results.push('sub on')
@@ -260,7 +260,7 @@ test('operates with memoized elements', function (t) {
       results.push('sub off')
     })
   }
-  var saved = null
+  let saved = null
   function parent () {
     saved = saved || onload(yo`<div>parent${sub()}</div>`, function () {
       results.push('parent on')
@@ -272,9 +272,9 @@ test('operates with memoized elements', function (t) {
   function app () {
     return yo`<div>${parent()}</div>`
   }
-  var root = app()
+  const root = app()
   document.body.appendChild(root)
-  var interval = setInterval(function () {
+  const interval = setInterval(function () {
     yo.update(root, app())
   }, 10)
   setTimeout(function () {
@@ -286,7 +286,7 @@ test('operates with memoized elements', function (t) {
 
 test('use latest callbacks from particular caller', function (t) {
   t.plan(1)
-  var results = []
+  const results = []
   function page (contents) {
     return onload(yo`<div id="choo-root">${contents}</div>`, function () {
       results.push('page on: ' + contents)
@@ -294,7 +294,7 @@ test('use latest callbacks from particular caller', function (t) {
       results.push('page off: ' + contents)
     })
   }
-  var root = page('render1')
+  let root = page('render1')
   document.body.appendChild(root)
   runops([
     function () {
@@ -307,7 +307,7 @@ test('use latest callbacks from particular caller', function (t) {
       document.body.removeChild(root)
     }
   ], function () {
-    var expected = [
+    const expected = [
       'page on: render1',
       'page off: render3'
     ]
@@ -318,7 +318,7 @@ test('use latest callbacks from particular caller', function (t) {
 
 function runops (ops, done) {
   function loop () {
-    var next = ops.shift()
+    const next = ops.shift()
     if (next) {
       next()
       setTimeout(loop, 10)

@@ -1,15 +1,15 @@
 /* global MutationObserver */
-var document = require('global/document')
-var window = require('global/window')
-var watch = Object.create(null)
-var KEY_ID = 'onloadid' + Math.random().toString(36).slice(2)
-var KEY_ATTR = 'data-' + KEY_ID
-var INDEX = 0
+const document = require('global/document')
+const window = require('global/window')
+const watch = Object.create(null)
+const KEY_ID = 'onloadid' + Math.random().toString(36).slice(2)
+const KEY_ATTR = 'data-' + KEY_ID
+let INDEX = 0
 
 if (window && window.MutationObserver) {
-  var observer = new MutationObserver(function (mutations) {
+  const observer = new MutationObserver(function (mutations) {
     if (Object.keys(watch).length < 1) return
-    for (var i = 0; i < mutations.length; i++) {
+    for (let i = 0; i < mutations.length; i++) {
       if (mutations[i].attributeName === KEY_ATTR) {
         eachAttr(mutations[i], turnon, turnoff)
         continue
@@ -59,7 +59,7 @@ function turnoff (index, el) {
 }
 
 function eachAttr (mutation, on, off) {
-  var newValue = mutation.target.getAttribute(KEY_ATTR)
+  const newValue = mutation.target.getAttribute(KEY_ATTR)
   if (sameOrigin(mutation.oldValue, newValue)) {
     watch[newValue][2] = watch[mutation.oldValue][2]
     return
@@ -78,10 +78,10 @@ function sameOrigin (oldValue, newValue) {
 }
 
 function eachMutation (nodes, fn) {
-  var keys = Object.keys(watch)
-  for (var i = 0; i < nodes.length; i++) {
+  const keys = Object.keys(watch)
+  for (let i = 0; i < nodes.length; i++) {
     if (nodes[i] && nodes[i].getAttribute && nodes[i].getAttribute(KEY_ATTR)) {
-      var onloadid = nodes[i].getAttribute(KEY_ATTR)
+      const onloadid = nodes[i].getAttribute(KEY_ATTR)
       keys.forEach(function (k) {
         if (onloadid === k) {
           fn(k, nodes[i])

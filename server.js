@@ -1,4 +1,4 @@
-var window = require('global/window')
+const window = require('global/window')
 
 if (isElectron()) {
   module.exports = require('./index.js') // explicite relative import to avoid browser field
