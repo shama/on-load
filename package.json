@@ -34,13 +34,13 @@
   "homepage": "https://github.com/shama/on-load",
   "dependencies": {
     "global": "^4.3.2",
-    "nanoassert": "^1.1.0"
+    "nanoassert": "^2.0.0"
   },
   "devDependencies": {
-    "browserify": "^16.2.2",
-    "standard": "^11.0.1",
-    "tape": "^4.6.0",
-    "tape-run": "^4.0.0",
+    "browserify": "^17.0.0",
+    "standard": "^17.0.0",
+    "tape": "^5.6.3",
+    "tape-run": "^10.0.0",
     "wzrd": "^1.4.0",
     "yo-yo": "^1.2.1"
   }
