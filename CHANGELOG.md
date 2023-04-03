@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## 5.0.0 - 2023-04-02
+* Call latest on/off callbacks and now using let/const internally instead of var - ([#16](https://github.com/shama/on-load/pull/16))
+* Code optimization - ([#41](https://github.com/shama/on-load/pull/41))
+
 ## 4.0.2 - 2019-03-29
 * Fix timing/loading collision bug - ([#40](https://github.com/shama/on-load/pull/40))
 
