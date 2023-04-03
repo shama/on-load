@@ -10,9 +10,9 @@ On load/unload events for DOM elements using a MutationObserver
 ## usage
 
 ```js
-var onload = require('on-load')
+const onload = require('on-load')
 
-var div = document.createElement('div')
+const div = document.createElement('div')
 onload(div, function (el) {
   console.log('in the dom')
 }, function (el) {
