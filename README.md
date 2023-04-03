@@ -35,7 +35,7 @@ document.body.removeChild(div)
 Pass a dom `node` to `onload` to have a `onloadFn` function fire when the dom `node` is added to the document `dom` and a `onunloadFn` fire when the dom `node` is removed from the document `dom`.  Optionally a `caller` ID can be set to associate the onload/onunload hooks with a particular instance of of a dom `node`.  This is commonly used when 'componentizing' dom nodes.
 
 # license
-(c) 2018 Kyle Robinson Young. MIT License
+(c) 2023 Kyle Robinson Young. MIT License
 
 [npm-image]: https://img.shields.io/npm/v/on-load.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/on-load
