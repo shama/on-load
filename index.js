@@ -8,13 +8,8 @@ let INDEX = 0
 
 if (window && window.MutationObserver) {
   const observer = new MutationObserver(function (mutations) {
-    var i = 0;
-    for (var k in watch) {
-      i++;
-      break;
-    }
-    if (!i) return
-    i = mutations.length;
+    if (!isHashValid(watch)) return
+    let i = mutations.length
     while (i--) {
       if (mutations[i].attributeName === KEY_ATTR) {
         eachAttr(mutations[i], turnon, turnoff)
@@ -97,5 +92,12 @@ function eachMutation (nodes, fn) {
     if (nodes[i] && nodes[i].childNodes.length > 0) {
       eachMutation(nodes[i].childNodes, fn)
     }
+  }
+}
+
+function isHashValid (hash) {
+  /* eslint-disable no-unreachable-loop */
+  for (const k in hash) {
+    return k
   }
 }
